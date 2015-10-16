@@ -17,6 +17,7 @@ class ProductTypeJobsTest extends TestCase
     {
         parent::setUp();
 
+        $this->artisan('vendor:publish');
         $this->artisan('migrate:refresh');
     }
 

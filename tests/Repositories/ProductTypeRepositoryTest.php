@@ -25,6 +25,7 @@ class ProductTypeRepositoryTest extends TestCase
     {
         parent::setUp();
 
+        $this->artisan('vendor:publish');
         $this->artisan('migrate:refresh');
 
         $this->repository = app(ProductTypeRepository::class);
