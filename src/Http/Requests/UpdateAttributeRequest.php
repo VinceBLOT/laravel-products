@@ -24,7 +24,7 @@ class UpdateAttributeRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => ['required', 'string', 'unique:attributes', 'max:40'],
+            'description' => ['required', 'string', 'unique:attributes,description'.$this->route('attribute'), 'max:40'],
             'type' => ['required', 'string', 'max:20'],
             'unit_of_measurement' => ['string', 'max:20'],
         ];

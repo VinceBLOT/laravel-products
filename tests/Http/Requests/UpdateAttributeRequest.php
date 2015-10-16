@@ -10,7 +10,9 @@ class UpdateAttributeRequestTest extends TestCase
 
         $this->assertTrue($request->authorize());
         $this->assertEquals([
-            'description' => ['required', 'string', 'unique:attributes,description,'.$request->route('product_type'), 'max:40'],
+            'description' => ['required', 'string', 'unique:attributes,description'.$request->route('attribute'), 'max:40'],
+            'type' => ['required', 'string', 'max:20'],
+            'unit_of_measurement' => ['string', 'max:20'],
         ], $request->rules());
     }
 }
