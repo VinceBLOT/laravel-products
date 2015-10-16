@@ -1,0 +1,29 @@
+{
+    "name": "speelpenning/laravel-products",
+    "description": "A package for creating a product catalogue.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gerben Speelpenning",
+            "email": "gerben@speelpenning.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "laravel/laravel": "5.1.*",
+        "speelpenning/contracts": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Speelpenning\\Products\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
+    }
+}
