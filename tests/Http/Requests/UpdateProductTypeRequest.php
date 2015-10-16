@@ -8,6 +8,7 @@ class UpdateProductTypeRequestTest extends TestCase
     {
         $request = new UpdateProductTypeRequest();
 
+        $this->assertTrue($request->authorize());
         $this->assertEquals([
             'description' => ['required', 'string', 'unique:product_types,description,'.$request->route('product_type')],
         ], $request->rules());

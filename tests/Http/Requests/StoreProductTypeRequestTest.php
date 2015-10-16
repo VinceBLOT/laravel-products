@@ -8,6 +8,7 @@ class StoreProductTypeRequestTest extends TestCase
     {
         $request = new StoreProductTypeRequest();
 
+        $this->assertTrue($request->authorize());
         $this->assertEquals([
             'description' => ['required', 'string', 'unique:product_types'],
         ], $request->rules());
