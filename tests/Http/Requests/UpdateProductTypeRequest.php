@@ -10,6 +10,6 @@ class UpdateProductTypeRequestTest extends TestCase
 
         $this->assertEquals([
             'description' => ['required', 'string', 'unique:product_types,description,'.$request->route('product_type')],
-        ]);
+        ], $request->rules());
     }
 }

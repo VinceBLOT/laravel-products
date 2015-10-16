@@ -15,6 +15,13 @@ class ProductTypeJobsTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions, DispatchesJobs;
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->artisan('migrate:refresh');
+    }
+
     protected function storeProduct($description)
     {
         return $this->dispatchFromArray(StoreProductType::class, compact('description'));
