@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Speelpenning\Contracts\Products\ProductType;
 use Speelpenning\Products\Events\ProductTypeWasDestroyed;
 use Speelpenning\Products\Events\ProductTypeWasStored;
@@ -13,7 +11,7 @@ use Speelpenning\Products\Jobs\UpdateProductType;
 
 class ProductTypeJobsTest extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions, DispatchesJobs;
+    use DispatchesJobs;
 
     public function setUp()
     {

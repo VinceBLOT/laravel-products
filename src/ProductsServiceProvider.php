@@ -40,6 +40,6 @@ class ProductsServiceProvider extends ServiceProvider
      */
     protected function publishMigrations()
     {
-        $this->publishes([__DIR__ . '/../database/migrations/' => database_path('migrations')], 'migrations');
+        $this->publishes([__DIR__ . '/../database/migrations' => database_path('migrations')], 'migrations');
     }
 }
