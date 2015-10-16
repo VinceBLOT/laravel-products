@@ -24,7 +24,7 @@ class UpdateProductTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => ['required', 'string', 'unique:product_types,description,'.$this->route('product_type')],
+            'description' => ['required', 'string', 'unique:product_types,description,'.$this->route('product_type'), 'max:40'],
         ];
     }
 }

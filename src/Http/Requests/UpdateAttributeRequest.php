@@ -4,7 +4,7 @@ namespace Speelpenning\Products\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductTypeRequest extends FormRequest
+class UpdateAttributeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,9 @@ class StoreProductTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => ['required', 'string', 'unique:product_types', 'max:40'],
+            'description' => ['required', 'string', 'unique:attributes', 'max:40'],
+            'type' => ['required', 'string', 'max:20'],
+            'unit_of_measurement' => ['string', 'max:20'],
         ];
     }
 }

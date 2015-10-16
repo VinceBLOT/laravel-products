@@ -1,12 +1,12 @@
 <?php
 
-use Speelpenning\Products\Http\Requests\UpdateProductTypeRequest;
+use Speelpenning\Products\Http\Requests\UpdateAttributeRequest;
 
-class UpdateProductTypeRequestTest extends TestCase
+class UpdateAttributeRequestTest extends TestCase
 {
     public function testValidationRules()
     {
-        $request = new UpdateProductTypeRequest();
+        $request = new UpdateAttributeRequest();
 
         $this->assertTrue($request->authorize());
         $this->assertEquals([

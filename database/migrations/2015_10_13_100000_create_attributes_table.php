@@ -19,7 +19,7 @@ class CreateAttributesTable extends Migration
 
             $table->string('description', 40);
             $table->string('type', 20);
-            $table->string('unit_of_measurement')->nullable();
+            $table->string('unit_of_measurement', 20)->nullable();
         });
     }
 

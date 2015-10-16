@@ -21,7 +21,7 @@ class ProductTypeJobsTest extends TestCase
         $this->artisan('migrate:refresh');
     }
 
-    protected function storeProduct($description)
+    protected function storeProductType($description)
     {
         return $this->dispatchFromArray(StoreProductType::class, compact('description'));
     }
@@ -32,7 +32,7 @@ class ProductTypeJobsTest extends TestCase
         $description = 'Personal Computer';
         $this->expectsEvents(ProductTypeWasStored::class);
 
-        $productType = $this->storeProduct($description);
+        $productType = $this->storeProductType($description);
 
         $this->assertInstanceOf(ProductType::class, $productType);
         $this->assertNotNull($productType->id);
@@ -43,7 +43,7 @@ class ProductTypeJobsTest extends TestCase
 
     public function testUpdateProductType()
     {
-        $id = $this->storeProduct('Description to be updated')->id;
+        $id = $this->storeProductType('Description to be updated')->id;
         $description = 'Updated description';
 
         $this->expectsEvents(ProductTypeWasUpdated::class);
@@ -58,7 +58,7 @@ class ProductTypeJobsTest extends TestCase
 
     public function testDestroyProductType()
     {
-        $id = $this->storeProduct('Product type to be destroyed')->id;
+        $id = $this->storeProductType('Product type to be destroyed')->id;
         $this->expectsEvents(ProductTypeWasDestroyed::class);
 
         $productType = $this->dispatchFromArray(DestroyProductType::class, compact('id'));

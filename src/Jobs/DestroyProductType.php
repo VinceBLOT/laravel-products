@@ -7,7 +7,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Speelpenning\Contracts\Products\ProductType;
 use Speelpenning\Contracts\Products\Repositories\ProductTypeRepository;
 use Speelpenning\Products\Events\ProductTypeWasDestroyed;
-use Speelpenning\Products\Events\ProductTypeWasUpdated;
 
 class DestroyProductType implements SelfHandling
 {
