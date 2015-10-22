@@ -17,7 +17,7 @@ class CreateAttributesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->string('description', 40);
+            $table->string('description', 40)->index();
             $table->string('type', 20);
             $table->string('unit_of_measurement', 20)->nullable();
         });

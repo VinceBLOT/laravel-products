@@ -26,7 +26,6 @@ class ProductTypeJobsTest extends TestCase
         return $this->dispatchFromArray(StoreProductType::class, compact('description'));
     }
 
-
     public function testStoreProductType()
     {
         $description = 'Personal Computer';

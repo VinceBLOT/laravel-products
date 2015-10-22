@@ -29,6 +29,9 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase {
         return $app;
     }
 
+    /**
+     * Configures Laravel for testing.
+     */
     protected function configureLaravel()
     {
         config([

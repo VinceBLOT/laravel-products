@@ -31,5 +31,4 @@ class AttributeTest extends TestCase
     {
         $this->assertTrue(Attribute::instantiate('Author', 'in')->supportsValues());
     }
-
 }
