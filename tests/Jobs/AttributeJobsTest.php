@@ -47,10 +47,11 @@ class AttributeJobsTest extends TestCase
     {
         $id = $this->storeAttribute('Length', 'numeric')->id;
         $description = 'Width';
+        $unit_of_measurement = 'cm';
 
         $this->expectsEvents(AttributeWasUpdated::class);
 
-        $attribute = $this->dispatchFromArray(UpdateAttribute::class, compact('id', 'description'));
+        $attribute = $this->dispatchFromArray(UpdateAttribute::class, compact('id', 'description', 'unit_of_measurement'));
 
         $this->assertInstanceOf(Attribute::class, $attribute);
         $this->assertEquals($description, $attribute->description);
