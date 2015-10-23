@@ -21,15 +21,22 @@ class UpdateAttribute implements SelfHandling
     protected $description;
 
     /**
+     * @var string
+     */
+    protected $unit_of_measurement;
+
+    /**
      * UpdateAttribute constructor.
      *
      * @param int $id
      * @param string $description
+     * @param string $unit_of_measurement
      */
-    public function __construct($id, $description)
+    public function __construct($id, $description, $unit_of_measurement)
     {
         $this->id = $id;
         $this->description = $description;
+        $this->unit_of_measurement = $unit_of_measurement;
     }
 
     /**
