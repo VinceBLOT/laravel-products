@@ -34,6 +34,18 @@ class AttributeRepository implements AttributeRepositoryContract
     }
 
     /**
+     * Relates attributes to a product type.
+     *
+     * @param int|array $attributeIds
+     * @param ProductTypeContract $productType
+     * @return array
+     */
+    public function relateToProductType($attributeIds, ProductTypeContract $productType)
+    {
+        return $productType->attributes()->sync(is_array($attributeIds) ? $attributeIds : [$attributeIds]);
+    }
+
+    /**
      * Returns a collection of attributes that belongs to the given product type.
      *
      * @param ProductTypeContract $productType

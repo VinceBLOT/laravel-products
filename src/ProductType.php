@@ -34,4 +34,14 @@ class ProductType extends Model implements ProductTypeContract
     {
         return new static(compact('description'));
     }
+
+    /**
+     * Returns the attribute relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class);
+    }
 }

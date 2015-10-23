@@ -25,12 +25,13 @@ class ProductTypeRepository implements ProductTypeRepositoryContract
      * Finds a product type by id.
      *
      * @param int $id
+     * @param array $relations
      * @return ProductType
      * @throws ModelNotFoundException
      */
-    public function find($id)
+    public function find($id, array $relations = [])
     {
-        return ProductType::findOrFail($id);
+        return ProductType::with($relations)->findOrFail($id);
     }
 
     /**
