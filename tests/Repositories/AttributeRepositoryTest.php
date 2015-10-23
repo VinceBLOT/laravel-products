@@ -66,4 +66,13 @@ class AttributeRepositoryTest extends TestCase
         $this->assertTrue($this->repository->destroy($this->repository->find(1)));
         $this->assertEquals(0, $this->repository->query()->total());
     }
+
+    public function testItReturnsAllAttributes()
+    {
+        $this->repository->save(Attribute::instantiate('Length', 'numeric'));
+        $this->repository->save(Attribute::instantiate('Width', 'numeric'));
+        $this->repository->save(Attribute::instantiate('Height', 'numeric'));
+
+        $this->assertCount(3, $this->repository->all());
+    }
 }
