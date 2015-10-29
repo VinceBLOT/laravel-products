@@ -10,8 +10,9 @@ class UpdateAttributeValueRequestTest extends TestCase
 
         $this->assertTrue($request->authorize());
         $this->assertEquals([
-            'attribute_id' => ['required', 'exists:attributes,id'],
-            'value' => ['required', 'string', 'max:255'],
+            'attributeId'      => ['required', 'exists:attributes,id'],
+            'attributeValueId' => ['required', 'exists:attribute_values,id'],
+            'value'            => ['required', 'string', 'max:255'],
         ], $request->rules());
     }
 }
