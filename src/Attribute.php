@@ -55,4 +55,14 @@ class Attribute extends Model implements AttributeContract
     {
         return $this->type == 'in';
     }
+
+    /**
+     * Returns the attribute value relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attributeValues()
+    {
+        return $this->hasMany(AttributeValue::class);
+    }
 }

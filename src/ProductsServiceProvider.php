@@ -4,8 +4,10 @@ namespace Speelpenning\Products;
 
 use Illuminate\Support\ServiceProvider;
 use Speelpenning\Contracts\Products\Repositories\AttributeRepository as AttributeRepositoryContract;
+use Speelpenning\Contracts\Products\Repositories\AttributeValueRepository as AttributeValueRepositoryContract;
 use Speelpenning\Contracts\Products\Repositories\ProductTypeRepository as ProductTypeRepositoryContract;
 use Speelpenning\Products\Repositories\AttributeRepository;
+use Speelpenning\Products\Repositories\AttributeValueRepository;
 use Speelpenning\Products\Repositories\ProductTypeRepository;
 
 class ProductsServiceProvider extends ServiceProvider
@@ -34,6 +36,9 @@ class ProductsServiceProvider extends ServiceProvider
     {
         $this->app->bind(AttributeRepositoryContract::class, function () {
             return new AttributeRepository();
+        });
+        $this->app->bind(AttributeValueRepositoryContract::class, function () {
+            return new AttributeValueRepository();
         });
         $this->app->bind(ProductTypeRepositoryContract::class, function () {
             return new ProductTypeRepository();
