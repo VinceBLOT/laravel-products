@@ -10,7 +10,6 @@ class StoreAttributeValueRequestTest extends TestCase
 
         $this->assertTrue($request->authorize());
         $this->assertEquals([
-            'attributeId' => ['required', 'exists:attributes,id'],
             'value' => ['required', 'string', 'max:255'],
         ], $request->rules());
     }

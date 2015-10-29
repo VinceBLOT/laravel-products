@@ -24,22 +24,7 @@ class StoreAttributeValueRequest extends FormRequest
     public function rules()
     {
         return [
-            'attributeId' => ['required', 'exists:attributes,id'],
             'value'       => ['required', 'string', 'max:255'],
         ];
-    }
-
-    /**
-     * Validate the class instance.
-     *
-     * @return void
-     */
-    public function validate()
-    {
-        $this->merge([
-            'attributeId' => $this->route('attribute'),
-        ]);
-
-        parent::validate();
     }
 }

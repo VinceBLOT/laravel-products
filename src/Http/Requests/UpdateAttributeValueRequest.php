@@ -24,24 +24,7 @@ class UpdateAttributeValueRequest extends FormRequest
     public function rules()
     {
         return [
-            'attributeId'      => ['required', 'exists:attributes,id'],
-            'attributeValueId' => ['required', 'exists:attribute_values,id'],
             'value'            => ['required', 'string', 'max:255'],
         ];
-    }
-
-    /**
-     * Validate the class instance.
-     *
-     * @return void
-     */
-    public function validate()
-    {
-        $this->merge([
-            'attributeId' => $this->route('attribute'),
-            'attributeValueId' => $this->route('value'),
-        ]);
-
-        parent::validate();
     }
 }
