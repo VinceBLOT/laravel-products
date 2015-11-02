@@ -34,15 +34,15 @@ class ProductsServiceProvider extends ServiceProvider
      */
     protected function bindRepositories()
     {
-        $this->app->bind(AttributeRepositoryContract::class, function () {
-            return new AttributeRepository();
-        });
-        $this->app->bind(AttributeValueRepositoryContract::class, function () {
-            return new AttributeValueRepository();
-        });
-        $this->app->bind(ProductTypeRepositoryContract::class, function () {
-            return new ProductTypeRepository();
-        });
+        $bindings = [
+            AttributeRepositoryContract::class      => AttributeRepository::class,
+            AttributeValueRepositoryContract::class => AttributeValueRepository::class,
+            ProductTypeRepositoryContract::class    => ProductTypeRepository::class,
+        ];
+
+        foreach ($bindings as $contract => $implementation) {
+            $this->app->bind($contract, $implementation);
+        }
     }
 
     /**
