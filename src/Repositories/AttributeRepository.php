@@ -40,7 +40,7 @@ class AttributeRepository implements AttributeRepositoryContract
      * @param ProductTypeContract $productType
      * @return array
      */
-    public function relateToProductType($attributeIds, ProductTypeContract $productType)
+    public function syncWithProductType($attributeIds, ProductTypeContract $productType)
     {
         return $productType->attributes()->sync(is_array($attributeIds) ? $attributeIds : [$attributeIds]);
     }

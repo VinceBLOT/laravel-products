@@ -93,12 +93,12 @@ class AttributeRepositoryTest extends TestCase
         $this->attributeRepository->save(Attribute::instantiate('Width', 'numeric'));
         $this->attributeRepository->save(Attribute::instantiate('Height', 'numeric'));
 
-        $result = $this->attributeRepository->relateToProductType([1, 2, 3], $productType);
+        $result = $this->attributeRepository->syncWithProductType([1, 2, 3], $productType);
         $this->assertCount(3, array_get($result, 'attached'));
         $this->assertCount(0, array_get($result, 'detached'));
         $this->assertCount(0, array_get($result, 'updated'));
 
-        $result = $this->attributeRepository->relateToProductType([1, 2], $productType);
+        $result = $this->attributeRepository->syncWithProductType([1, 2], $productType);
         $this->assertCount(0, array_get($result, 'attached'));
         $this->assertCount(1, array_get($result, 'detached'));
         $this->assertCount(0, array_get($result, 'updated'));
