@@ -22,7 +22,7 @@ class AttributeValue extends Model implements AttributeValueContract
      */
     public static function instantiate(AttributeContract $attribute, $value)
     {
-        if ( ! $attribute->supportsValues()) {
+        if (! $attribute->supportsValues()) {
             throw new AttributeMustSupportValues();
         }
 
