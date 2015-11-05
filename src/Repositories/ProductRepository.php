@@ -42,7 +42,7 @@ class ProductRepository implements ProductRepositoryContract
         return Product::where(function ($query) use ($q) {
                 if ($q) {
                     foreach (explode(' ', $q) as $keyword) {
-                        $query->where('description', 'like', "{$keyword}%");
+                        $query->where('description', 'like', "%{$keyword}%");
                     }
                 }
             })

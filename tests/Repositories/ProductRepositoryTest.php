@@ -53,4 +53,22 @@ class ProductRepositoryTest extends TestCase
         $this->assertEquals('123456', $product->product_number);
         $this->assertEquals('Testing', $product->description);
     }
+
+    public function testItQueriesProductTypes()
+    {
+        $productType = $this->createProductType();
+
+        $products = [
+            Product::instantiate(ProductNumber::parse('123456'), $productType, 'Book'),
+            Product::instantiate(ProductNumber::parse('234567'), $productType, 'Mobile phone'),
+            Product::instantiate(ProductNumber::parse('345678'), $productType, 'Coffee maker'),
+            Product::instantiate(ProductNumber::parse('456789'), $productType, 'Text book'),
+        ];
+
+        foreach ($products as $product) {
+            $this->repository->save($product);
+        }
+
+        $this->assertEquals(2, $this->repository->query('book')->total());
+    }
 }
