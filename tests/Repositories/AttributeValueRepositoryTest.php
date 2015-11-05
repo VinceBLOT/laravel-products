@@ -21,9 +21,6 @@ class AttributeValueRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->artisan('vendor:publish', ['force']);
-        $this->artisan('migrate');
-
         $this->attributeRepository = app(AttributeRepository::class);
         $this->attributeValueRepository = app(AttributeValueRepository::class);
     }

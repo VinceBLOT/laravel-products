@@ -2,7 +2,7 @@
 
 namespace Speelpenning\Products\Events;
 
-use Speelpenning\Products\AttributeValue;
+use Speelpenning\Contracts\Products\AttributeValue;
 
 class AttributeValueWasDestroyed
 {
