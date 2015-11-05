@@ -15,14 +15,6 @@ class ProductTypeJobsTest extends TestCase
 {
     use DispatchesJobs;
 
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->artisan('vendor:publish');
-        $this->artisan('migrate:refresh');
-    }
-
     protected function storeProductType($description)
     {
         return $this->dispatchFromArray(StoreProductType::class, compact('description'));

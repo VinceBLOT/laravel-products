@@ -11,6 +11,14 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
      */
     protected $baseUrl = 'http://localhost';
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->artisan('vendor:publish', ['force']);
+        $this->artisan('migrate:refresh');
+    }
+
     /**
      * Creates the application.
      *

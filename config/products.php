@@ -12,7 +12,7 @@ return [
          *      true        the product number will be set automatically
          *      false       the product number must be picked by the user
          */
-        'autoIncrements' => env('PRODUCTS_PN_INCREMENTS', true),
+        'autoIncrements' => (bool)env('PRODUCTS_PN_INCREMENTS', true),
 
         /*
          * The length a product number must have for auto increment.
