@@ -86,7 +86,7 @@ class ProductNumber implements ProductNumberContract
     {
         $pattern = '/^[1-9]{1}[0-9]{' . ($this->length() - 1) . '}$/';
 
-        if ( ! preg_match($pattern, $value)) {
+        if (! preg_match($pattern, $value)) {
             throw new InvalidArgumentException("Product number [{$value}] does not match pattern {$pattern}");
         }
     }
