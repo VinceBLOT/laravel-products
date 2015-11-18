@@ -98,4 +98,18 @@ class ProductRepositoryTest extends TestCase
         $this->notSeeInDatabase('attribute_product', ['product_id' => $product->id, 'attribute_id' => 2]);
         $this->seeInDatabase('attribute_product', ['product_id' => $product->id, 'attribute_id' => 3, 'value' => 10]);
     }
+
+    public function testItFetchesTheHighestProductNumber()
+    {
+        $this->assertEquals('100000', $this->repository->getHighestProductNumber());
+
+        $productType = $this->createProductTypeAndAttributes();
+        $this->repository->save(Product::instantiate(
+            ProductNumber::parse('123456'),
+            $productType,
+            'Test product'
+        ));
+
+        $this->assertEquals('123456', $this->repository->getHighestProductNumber());
+    }
 }
