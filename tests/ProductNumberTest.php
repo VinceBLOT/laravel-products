@@ -41,6 +41,11 @@ class ProductNumberTest extends TestCase
         ProductNumber::parse('012345');
     }
 
+    public function testItGeneratesTheFirstProductNumber()
+    {
+        $this->assertEquals('100000', ProductNumber::first());
+    }
+
     public function testItCanGenerateTheNextProductNumber()
     {
         $next = ProductNumber::parse('123456')->next();
