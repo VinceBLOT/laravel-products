@@ -43,4 +43,24 @@ class Product extends Model implements ProductContract
     {
         return new ProductNumber($value);
     }
+
+    /**
+     * Returns the product attribute relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class)->withPivot('value');
+    }
+
+    /**
+     * Returns the product type relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function productType()
+    {
+        return $this->belongsTo(ProductType::class);
+    }
 }

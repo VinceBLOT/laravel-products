@@ -7,6 +7,7 @@ return [
      */
     'create' => 'Add product',
     'destroy' => 'Trash product',
+    'edit' => 'Edit product',
     'index' => 'Products',
 
     /*
@@ -21,9 +22,11 @@ return [
     'description' => 'Description',
     'detailed_description' => 'Detailed description',
     'ean' => 'EAN',
+    'general_details' => 'General details',
     'in_days' => 'in days',
     'pricing' => 'Pricing',
     'product_number' => 'Product number',
+    'product_number_auto_increments' => 'A product number will be picked automatically',
     'product_type' => 'Product type',
     'purchase_price' => 'Purchase price',
     'purchasing' => 'Purchasing',

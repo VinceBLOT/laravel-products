@@ -9,8 +9,6 @@ use Speelpenning\Products\ProductType;
 
 class AttributeRepositoryTest extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     /**
      * @var AttributeRepository
      */
@@ -63,7 +61,7 @@ class AttributeRepositoryTest extends TestCase
         $this->notSeeInDatabase('attributes', ['description' => 'Length']);
     }
 
-    public function testItDestroysProductTypes()
+    public function testItDestroysAttributes()
     {
         $this->attributeRepository->save(Attribute::instantiate('Length', 'numeric'));
         $this->assertEquals(1, $this->attributeRepository->query()->total());

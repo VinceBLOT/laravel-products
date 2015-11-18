@@ -28,22 +28,25 @@ class ProductJobsTest extends TestCase
     public function testStoreProduct()
     {
         $this->expectsEvents(ProductWasStored::class);
+        $productTypeId = $this->createProductType()->id;
 
-        $data = [
-            'product_number' => '123456',
-            'product_type_id' => $this->createProductType()->id,
+        $product = $this->dispatchFromArray(StoreProduct::class, [
+            'productTypeId' => $productTypeId,
+            'productNumber' => '123456',
             'description' => 'Test dummy',
-        ];
-
-        $product = $this->dispatchFromArray(StoreProduct::class, $data);
+        ]);
 
         $this->assertInstanceOf(Product::class, $product);
         $this->assertNotNull($product->id);
-        $this->assertEquals($data['product_number'], $product->product_number);
-        $this->assertEquals($data['product_type_id'], $product->product_type_id);
-        $this->assertEquals($data['description'], $product->description);
+        $this->assertEquals('123456', $product->product_number);
+        $this->assertEquals($productTypeId, $product->product_type_id);
+        $this->assertEquals('Test dummy', $product->description);
 
-        $this->seeInDatabase('products', $data);
+        $this->seeInDatabase('products', [
+            'product_type_id' => $productTypeId,
+            'product_number' => '123456',
+            'description' => 'Test dummy',
+        ]);
     }
 
     public function testUpdateProduct()

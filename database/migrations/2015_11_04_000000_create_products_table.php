@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->string('product_number');
+            $table->string('product_number', 20);
             $table->unsignedInteger('product_type_id');
             $table->string('description');
 

@@ -45,13 +45,33 @@ class ProductNumber implements ProductNumberContract
     }
 
     /**
+     * Returns the first product number.
+     *
+     * @return ProductNumber
+     */
+    public static function first()
+    {
+        return new static('1' . str_repeat('0', config('products.productNumber.length') - 1));
+    }
+
+    /**
+     * Returns the product number format.
+     *
+     * @return string
+     */
+    public static function format()
+    {
+        return '/^[1-9]{1}[0-9]{' . ((int)config('products.productNumber.length') - 1) . '}$/';
+    }
+
+    /**
      * Returns the length that a product number must have.
      *
      * @return int
      */
     public function length()
     {
-        return config('products.productNumber.length');
+        return (int)config('products.productNumber.length');
     }
 
     /**
@@ -84,10 +104,8 @@ class ProductNumber implements ProductNumberContract
      */
     protected function validate($value)
     {
-        $pattern = '/^[1-9]{1}[0-9]{' . ($this->length() - 1) . '}$/';
-
-        if (! preg_match($pattern, $value)) {
-            throw new InvalidArgumentException("Product number [{$value}] does not match pattern {$pattern}");
+        if ( ! preg_match(static::format(), $value)) {
+            throw new InvalidArgumentException("Product number [{$value}] does not match format " . static::format());
         }
     }
 }

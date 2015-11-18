@@ -3,13 +3,24 @@
 namespace Speelpenning\Products\Repositories;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Speelpenning\Contracts\Products\Product;
 use Speelpenning\Contracts\Products\ProductType as ProductTypeContract;
 use Speelpenning\Contracts\Products\Repositories\ProductTypeRepository as ProductTypeRepositoryContract;
 use Speelpenning\Products\ProductType;
 
 class ProductTypeRepository implements ProductTypeRepositoryContract
 {
+    /**
+     *
+     * @return Collection
+     */
+    public function all()
+    {
+        return ProductType::orderBy('description')->get();
+    }
+
     /**
      * Destroys a product type.
      *
@@ -33,6 +44,18 @@ class ProductTypeRepository implements ProductTypeRepositoryContract
     {
         return ProductType::with($relations)->findOrFail($id);
     }
+
+    /**
+     * Returns the product type belonging to the given product.
+     *
+     * @param Product $product
+     * @return ProductTypeContract
+     */
+    public function getByProduct(Product $product)
+    {
+        return $product->productType;
+    }
+
 
     /**
      * Returns a collection of product types.

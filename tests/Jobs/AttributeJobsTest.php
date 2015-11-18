@@ -13,14 +13,6 @@ class AttributeJobsTest extends TestCase
 {
     use DispatchesJobs;
 
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->artisan('vendor:publish');
-        $this->artisan('migrate:refresh');
-    }
-
     protected function storeAttribute($description, $type)
     {
         return $this->dispatchFromArray(StoreAttribute::class, compact('description', 'type'));
@@ -47,16 +39,19 @@ class AttributeJobsTest extends TestCase
     {
         $id = $this->storeAttribute('Length', 'numeric')->id;
         $description = 'Width';
-        $unit_of_measurement = 'cm';
+        $unitOfMeasurement = 'cm';
 
         $this->expectsEvents(AttributeWasUpdated::class);
 
-        $attribute = $this->dispatchFromArray(UpdateAttribute::class, compact('id', 'description', 'unit_of_measurement'));
+        $attribute = $this->dispatchFromArray(UpdateAttribute::class, compact('id', 'description', 'unitOfMeasurement'));
 
         $this->assertInstanceOf(Attribute::class, $attribute);
         $this->assertEquals($description, $attribute->description);
 
-        $this->seeInDatabase('attributes', compact('description'));
+        $this->seeInDatabase('attributes', [
+            'description' => $description,
+            'unit_of_measurement' => $unitOfMeasurement,
+        ]);
     }
 
     public function testDestroyAttribute()

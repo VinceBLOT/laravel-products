@@ -15,12 +15,12 @@ class StoreProduct implements SelfHandling
     /**
      * @var ProductNumber
      */
-    protected $product_number;
+    protected $productNumber;
 
     /**
      * @var int
      */
-    protected $product_type_id;
+    protected $productTypeId;
 
     /**
      * @var string
@@ -28,14 +28,14 @@ class StoreProduct implements SelfHandling
     protected $description;
 
     /**
-     * @param string $product_number
-     * @param int $product_type_id
+     * @param string $productNumber
+     * @param int $productTypeId
      * @param string $description
      */
-    public function __construct($product_number, $product_type_id, $description)
+    public function __construct($productNumber = null, $productTypeId, $description)
     {
-        $this->product_number = ProductNumber::parse($product_number);
-        $this->product_type_id = $product_type_id;
+        $this->productNumber = $productNumber;
+        $this->productTypeId = $productTypeId;
         $this->description = $description;
     }
 
@@ -50,8 +50,12 @@ class StoreProduct implements SelfHandling
     public function handle(ProductRepository $productRepository, ProductTypeRepository $productTypeRepository,
                            Dispatcher $event)
     {
-        $productType = $productTypeRepository->find($this->product_type_id);
-        $product = Product::instantiate($this->product_number, $productType, $this->description);
+        $productNumber = is_null($this->productNumber)
+            ? ProductNumber::first()
+            : ProductNumber::parse($this->productNumber);
+
+        $productType = $productTypeRepository->find($this->productTypeId);
+        $product = Product::instantiate($productNumber, $productType, $this->description);
         $productRepository->save($product);
         $event->fire(new ProductWasStored($product));
         return $product;

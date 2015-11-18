@@ -2,8 +2,10 @@
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Speelpenning\Contracts\Products\Repositories\AttributeRepository;
 use Speelpenning\Contracts\Products\Repositories\ProductRepository;
 use Speelpenning\Contracts\Products\Repositories\ProductTypeRepository;
+use Speelpenning\Products\Attribute;
 use Speelpenning\Products\Product;
 use Speelpenning\Products\ProductNumber;
 use Speelpenning\Products\ProductType;
@@ -29,19 +31,26 @@ class ProductRepositoryTest extends TestCase
      *
      * @return \Speelpenning\Contracts\Products\ProductType
      */
-    public function createProductType()
+    public function createProductTypeAndAttributes()
     {
         $productType = ProductType::instantiate('Dummy');
         app(ProductTypeRepository::class)->save($productType);
+
+        app(AttributeRepository::class)->save(Attribute::instantiate('Length', 'numeric'));
+        app(AttributeRepository::class)->save(Attribute::instantiate('Width', 'numeric'));
+        app(AttributeRepository::class)->save(Attribute::instantiate('Height', 'numeric'));
+        app(AttributeRepository::class)->syncWithProductType([1, 2, 3], $productType);
+
         return $productType;
     }
 
     public function testItSavesNewProducts()
     {
-        $productType = $this->createProductType();
+        $productType = $this->createProductTypeAndAttributes();
         $product = Product::instantiate(ProductNumber::parse('123456'), $productType, 'Testing');
 
         $this->assertTrue($this->repository->save($product));
+        $this->seeInDatabase('products', $product->toArray());
     }
 
     public function testItFindsProductsById()
@@ -54,9 +63,9 @@ class ProductRepositoryTest extends TestCase
         $this->assertEquals('Testing', $product->description);
     }
 
-    public function testItQueriesProductTypes()
+    public function testItQueriesProducts()
     {
-        $productType = $this->createProductType();
+        $productType = $this->createProductTypeAndAttributes();
 
         $products = [
             Product::instantiate(ProductNumber::parse('123456'), $productType, 'Book'),
@@ -70,5 +79,23 @@ class ProductRepositoryTest extends TestCase
         }
 
         $this->assertEquals(2, $this->repository->query('book')->total());
+    }
+
+    public function testItUpdatesProductsAndTheirAttributes()
+    {
+        $this->testItSavesNewProducts();
+
+        $product = $this->repository->find(1)->fill(['description' => 'Updated description']);
+        $this->repository->save($product, [1 => 5, 2 => 10, 3 => 15]);
+
+        $this->seeInDatabase('products', $product->toArray());
+        $this->seeInDatabase('attribute_product', ['product_id' => $product->id, 'attribute_id' => 1, 'value' => 5]);
+        $this->seeInDatabase('attribute_product', ['product_id' => $product->id, 'attribute_id' => 2, 'value' => 10]);
+        $this->seeInDatabase('attribute_product', ['product_id' => $product->id, 'attribute_id' => 3, 'value' => 15]);
+
+        $this->repository->save($product, [1 => 5, 3 => 10]);
+        $this->seeInDatabase('attribute_product', ['product_id' => $product->id, 'attribute_id' => 1, 'value' => 5]);
+        $this->notSeeInDatabase('attribute_product', ['product_id' => $product->id, 'attribute_id' => 2]);
+        $this->seeInDatabase('attribute_product', ['product_id' => $product->id, 'attribute_id' => 3, 'value' => 10]);
     }
 }

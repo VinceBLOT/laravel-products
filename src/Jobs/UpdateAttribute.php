@@ -30,13 +30,13 @@ class UpdateAttribute implements SelfHandling
      *
      * @param int $id
      * @param string $description
-     * @param string|null $unit_of_measurement
+     * @param string|null $unitOfMeasurement
      */
-    public function __construct($id, $description, $unit_of_measurement = null)
+    public function __construct($id, $description, $unitOfMeasurement = null)
     {
         $this->id = $id;
         $this->description = $description;
-        $this->unit_of_measurement = $unit_of_measurement;
+        $this->unit_of_measurement = $unitOfMeasurement;
     }
 
     /**
