@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Speelpenning\Products\Product;
 use Speelpenning\Products\ProductNumber;
 use Speelpenning\Products\ProductType;
