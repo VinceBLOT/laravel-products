@@ -39,7 +39,7 @@ class ProductRepositoryTest extends TestCase
         app(AttributeRepository::class)->save(Attribute::instantiate('Length', 'numeric'));
         app(AttributeRepository::class)->save(Attribute::instantiate('Width', 'numeric'));
         app(AttributeRepository::class)->save(Attribute::instantiate('Height', 'numeric'));
-        app(AttributeRepository::class)->syncWithProductType([1, 2, 3], $productType);
+        app(AttributeRepository::class)->syncWithProductType($productType, [1, 2, 3], []);
 
         return $productType;
     }

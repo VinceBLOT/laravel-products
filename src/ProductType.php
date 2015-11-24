@@ -42,6 +42,6 @@ class ProductType extends Model implements ProductTypeContract
      */
     public function attributes()
     {
-        return $this->belongsToMany(Attribute::class);
+        return $this->belongsToMany(Attribute::class)->withPivot('required');
     }
 }

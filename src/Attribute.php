@@ -22,7 +22,11 @@ class Attribute extends Model implements AttributeContract
      *
      * @var array
      */
-    protected $fillable = ['description', 'type', 'unit_of_measurement'];
+    protected $fillable = [
+        'description', 'type',
+        'maxlength', 'pattern', 'autocomplete', 'placeholder',
+        'min', 'max', 'step', 'unit_of_measurement',
+    ];
 
     /**
      * Instantiates a new attribute.

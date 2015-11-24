@@ -27,17 +27,24 @@ class UpdateProductType implements SelfHandling
     protected $attributes;
 
     /**
+     * @var array
+     */
+    protected $requiredAttributes;
+
+    /**
      * UpdateProductType constructor.
      *
      * @param int $id
      * @param string $description
      * @param array $attributes
+     * @param array $requiredAttributes
      */
-    public function __construct($id, $description, array $attributes = [])
+    public function __construct($id, $description, array $attributes = [], array $requiredAttributes = [])
     {
         $this->id = $id;
         $this->description = $description;
         $this->attributes = $attributes;
+        $this->requiredAttributes = $requiredAttributes;
     }
 
     /**
@@ -55,7 +62,7 @@ class UpdateProductType implements SelfHandling
 
         $productTypeRepository->save($productType);
 
-        $attributeRepository->syncWithProductType($this->attributes, $productType);
+        $attributeRepository->syncWithProductType($productType, $this->attributes, $this->requiredAttributes);
 
         $event->fire(new ProductTypeWasUpdated($productType));
 
