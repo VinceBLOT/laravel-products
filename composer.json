@@ -10,6 +10,7 @@
     ],
     "require": {
         "php": ">=5.5.9",
+        "doctrine/dbal": "^2.5",
         "laravel/framework": "5.1.*",
         "speelpenning/contracts": "*"
     },
