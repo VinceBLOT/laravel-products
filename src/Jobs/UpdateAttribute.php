@@ -20,7 +20,42 @@ class UpdateAttribute
     protected $description;
 
     /**
-     * @var string
+     * @var int|null
+     */
+    protected $maxlength;
+
+    /**
+     * @var string|null
+     */
+    protected $autocomplete;
+
+    /**
+     * @var string|null
+     */
+    protected $placeholder;
+
+    /**
+     * @var string|null
+     */
+    protected $pattern;
+
+    /**
+     * @var float|null
+     */
+    protected $min;
+
+    /**
+     * @var float|null
+     */
+    protected $max;
+
+    /**
+     * @var float|null
+     */
+    protected $step;
+
+    /**
+     * @var string|null
      */
     protected $unit_of_measurement;
 
@@ -29,13 +64,31 @@ class UpdateAttribute
      *
      * @param int $id
      * @param string $description
-     * @param string|null $unit_of_measurement
+     * @param int|null $maxlength
+     * @param string|null $autocomplete
+     * @param string|null $placeholder
+     * @param string|null $pattern
+     * @param float|null $min
+     * @param float|null $max
+     * @param float|null $step
+     * @param string|null $unitOfMeasurement
      */
-    public function __construct($id, $description, $unit_of_measurement = null)
+    public function __construct($id, $description,
+        $maxlength = null, $autocomplete = null, $placeholder = null, $pattern = null,
+        $min = null, $max = null, $step = null, $unitOfMeasurement = null)
     {
         $this->id = $id;
         $this->description = $description;
-        $this->unit_of_measurement = $unit_of_measurement;
+
+        $this->maxlength = $maxlength;
+        $this->autocomplete = $autocomplete;
+        $this->placeholder = $placeholder;
+        $this->pattern = $pattern;
+
+        $this->min = $min;
+        $this->max = $max;
+        $this->step = $step;
+        $this->unit_of_measurement = $unitOfMeasurement;
     }
 
     /**

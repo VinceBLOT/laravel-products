@@ -36,13 +36,21 @@ class AttributeRepository implements AttributeRepositoryContract
     /**
      * Relates attributes to a product type.
      *
-     * @param int|array $attributeIds
      * @param ProductTypeContract $productType
+     * @param int|array $attributeIds
+     * @param array $requiredAttributes
      * @return array
      */
-    public function relateToProductType($attributeIds, ProductTypeContract $productType)
+    public function syncWithProductType(ProductTypeContract $productType, $attributeIds, array $requiredAttributes = [])
     {
-        return $productType->attributes()->sync(is_array($attributeIds) ? $attributeIds : [$attributeIds]);
+        $attributeIds = is_array($attributeIds) ? $attributeIds : [$attributeIds];
+
+        $pivot = [];
+        foreach ($attributeIds as $id) {
+            $pivot[$id] = ['required' => in_array($id, $requiredAttributes)];
+        }
+
+        return $productType->attributes()->sync($pivot);
     }
 
     /**
@@ -91,22 +99,4 @@ class AttributeRepository implements AttributeRepositoryContract
     {
         return $attribute->save();
     }
-
-    /**
-     * Relates attributes to a product type.
-     *
-     * @param ProductTypeContract $productType
-     * @param int|array $attributeIds
-     * @param array $requiredAttributes
-     * @return array
-     */
-    public function syncWithProductType(ProductTypeContract $productType, $attributeIds, array $requiredAttributes = [])
-    {
-        foreach ($attributeIds as $id) {
-            array_set($attributeIds, $id, ['required' => in_array($id, $requiredAttributes)]);
-        }
-        $productType->sync($attributeIds);
-    }
-
-
 }

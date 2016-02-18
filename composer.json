@@ -10,9 +10,9 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*",
-        "speelpenning/contracts": "*",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "laravel/framework": "5.1.*",
+        "speelpenning/contracts": "*"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",

@@ -38,16 +38,20 @@ class AttributeJobsTest extends TestCase
     {
         $id = $this->storeAttribute('Length', 'numeric')->id;
         $description = 'Width';
-        $unit_of_measurement = 'cm';
+        $unitOfMeasurement = 'cm';
 
         $this->expectsEvents(AttributeWasUpdated::class);
 
-        $attribute = $this->dispatch(new UpdateAttribute($id, $description, $unit_of_measurement));
+        $attribute = $this->dispatch(new UpdateAttribute($id, $description, null, null, null, null, null, null, null,$unitOfMeasurement));
 
         $this->assertInstanceOf(Attribute::class, $attribute);
         $this->assertEquals($description, $attribute->description);
+        $this->assertEquals($unitOfMeasurement, $attribute->unit_of_measurement);
 
-        $this->seeInDatabase('attributes', compact('description'));
+        $this->seeInDatabase('attributes', [
+            'description' => $description,
+            'unit_of_measurement' => $unitOfMeasurement,
+        ]);
     }
 
     public function testDestroyAttribute()

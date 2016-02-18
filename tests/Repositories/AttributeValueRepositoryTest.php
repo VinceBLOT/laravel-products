@@ -48,7 +48,7 @@ class AttributeValueRepositoryTest extends TestCase
     {
         $attribute = $this->createAttribute();
 
-        foreach(['Male', 'Female', 'Not specified'] as $value) {
+        foreach (['Male', 'Female', 'Not specified'] as $value) {
             $attributeValue = AttributeValue::instantiate($attribute, $value);
             $this->attributeValueRepository->save($attributeValue);
         }

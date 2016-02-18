@@ -2,6 +2,8 @@
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Speelpenning\Contracts\Products\ProductType;
+use Speelpenning\Contracts\Products\Repositories\AttributeRepository;
+use Speelpenning\Products\Attribute;
 use Speelpenning\Products\Events\ProductTypeWasDestroyed;
 use Speelpenning\Products\Events\ProductTypeWasStored;
 use Speelpenning\Products\Events\ProductTypeWasUpdated;
@@ -16,6 +18,17 @@ class ProductTypeJobsTest extends TestCase
     protected function storeProductType($description)
     {
         return $this->dispatch(new StoreProductType($description));
+    }
+
+    protected function createAttributes()
+    {
+        $repository = app(AttributeRepository::class);
+
+        $repository->save(Attribute::instantiate('Attribute 1', 'string'));
+        $repository->save(Attribute::instantiate('Attribute 2', 'numeric'));
+        $repository->save(Attribute::instantiate('Attribute 3', 'in'));
+
+        return $repository->all();
     }
 
     public function testStoreProductType()
@@ -56,5 +69,23 @@ class ProductTypeJobsTest extends TestCase
 
         $this->assertInstanceOf(ProductType::class, $productType);
         $this->assertNotNull($productType->deleted_at);
+    }
+
+    public function testAttributesCanBeAssociatedAndDissociated()
+    {
+        $productType = $this->storeProductType('Some product type');
+        $attributes = $this->createAttributes()->pluck('id')->toArray();
+
+        $this->dispatch(new UpdateProductType($productType->id, $productType->description, $attributes));
+
+        $this->seeInDatabase('attribute_product_type', ['product_type_id' => 1, 'attribute_id' => 1]);
+        $this->seeInDatabase('attribute_product_type', ['product_type_id' => 1, 'attribute_id' => 2]);
+        $this->seeInDatabase('attribute_product_type', ['product_type_id' => 1, 'attribute_id' => 3]);
+
+        $this->dispatch(new UpdateProductType($productType->id, $productType->description, array_only($attributes, [1])));
+
+        $this->notSeeInDatabase('attribute_product_type', ['product_type_id' => 1, 'attribute_id' => 1]);
+        $this->seeInDatabase('attribute_product_type', ['product_type_id' => 1, 'attribute_id' => 2]);
+        $this->notSeeInDatabase('attribute_product_type', ['product_type_id' => 1, 'attribute_id' => 3]);
     }
 }

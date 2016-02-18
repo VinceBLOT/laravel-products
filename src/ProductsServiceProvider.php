@@ -5,9 +5,11 @@ namespace Speelpenning\Products;
 use Illuminate\Support\ServiceProvider;
 use Speelpenning\Contracts\Products\Repositories\AttributeRepository as AttributeRepositoryContract;
 use Speelpenning\Contracts\Products\Repositories\AttributeValueRepository as AttributeValueRepositoryContract;
+use Speelpenning\Contracts\Products\Repositories\ProductRepository as ProductRepositoryContract;
 use Speelpenning\Contracts\Products\Repositories\ProductTypeRepository as ProductTypeRepositoryContract;
 use Speelpenning\Products\Repositories\AttributeRepository;
 use Speelpenning\Products\Repositories\AttributeValueRepository;
+use Speelpenning\Products\Repositories\ProductRepository;
 use Speelpenning\Products\Repositories\ProductTypeRepository;
 
 class ProductsServiceProvider extends ServiceProvider
@@ -26,6 +28,7 @@ class ProductsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(__DIR__ . '/../config/products.php', 'products');
         $this->bindRepositories();
     }
 
@@ -34,15 +37,16 @@ class ProductsServiceProvider extends ServiceProvider
      */
     protected function bindRepositories()
     {
-        $this->app->bind(AttributeRepositoryContract::class, function () {
-            return new AttributeRepository();
-        });
-        $this->app->bind(AttributeValueRepositoryContract::class, function () {
-            return new AttributeValueRepository();
-        });
-        $this->app->bind(ProductTypeRepositoryContract::class, function () {
-            return new ProductTypeRepository();
-        });
+        $bindings = [
+            AttributeRepositoryContract::class      => AttributeRepository::class,
+            AttributeValueRepositoryContract::class => AttributeValueRepository::class,
+            ProductRepositoryContract::class        => ProductRepository::class,
+            ProductTypeRepositoryContract::class    => ProductTypeRepository::class,
+        ];
+
+        foreach ($bindings as $contract => $implementation) {
+            $this->app->bind($contract, $implementation);
+        }
     }
 
     /**

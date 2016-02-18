@@ -14,6 +14,8 @@ return [
      * Labels
      */
     'attributes'            => 'Attributes',
+    'attribute_required'    => 'Required',
+    'bind_attribute'        => 'Bind',
     'description'           => 'Description',
 
     /*

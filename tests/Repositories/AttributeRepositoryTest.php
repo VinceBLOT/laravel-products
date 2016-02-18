@@ -9,8 +9,6 @@ use Speelpenning\Products\ProductType;
 
 class AttributeRepositoryTest extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     /**
      * @var AttributeRepository
      */
@@ -63,7 +61,7 @@ class AttributeRepositoryTest extends TestCase
         $this->notSeeInDatabase('attributes', ['description' => 'Length']);
     }
 
-    public function testItDestroysProductTypes()
+    public function testItDestroysAttributes()
     {
         $this->attributeRepository->save(Attribute::instantiate('Length', 'numeric'));
         $this->assertEquals(1, $this->attributeRepository->query()->total());
@@ -90,15 +88,33 @@ class AttributeRepositoryTest extends TestCase
         $this->attributeRepository->save(Attribute::instantiate('Width', 'numeric'));
         $this->attributeRepository->save(Attribute::instantiate('Height', 'numeric'));
 
-        $result = $this->attributeRepository->relateToProductType([1, 2, 3], $productType);
+        $result = $this->attributeRepository->syncWithProductType($productType, [1, 2, 3], [2]);
         $this->assertCount(3, array_get($result, 'attached'));
         $this->assertCount(0, array_get($result, 'detached'));
         $this->assertCount(0, array_get($result, 'updated'));
 
-        $result = $this->attributeRepository->relateToProductType([1, 2], $productType);
+        $this->seeInDatabase('attribute_product_type', [
+            'product_type_id' => $productType->id,
+            'attribute_id' => 2,
+            'required' => true,
+        ]);
+
+        $result = $this->attributeRepository->syncWithProductType($productType, [1, 2], [1]);
         $this->assertCount(0, array_get($result, 'attached'));
         $this->assertCount(1, array_get($result, 'detached'));
-        $this->assertCount(0, array_get($result, 'updated'));
+        $this->assertCount(2, array_get($result, 'updated'));
+
+        $this->seeInDatabase('attribute_product_type', [
+            'product_type_id' => $productType->id,
+            'attribute_id' => 1,
+            'required' => true,
+        ]);
+
+        $this->dontSeeInDatabase('attribute_product_type', [
+            'product_type_id' => $productType->id,
+            'attribute_id' => 2,
+            'required' => true,
+        ]);
     }
 
     public function testItReturnsAttributesRelatedToAProductType()
