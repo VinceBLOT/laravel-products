@@ -2,13 +2,12 @@
 
 namespace Speelpenning\Products\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 use Speelpenning\Contracts\Products\ProductType;
 use Speelpenning\Contracts\Products\Repositories\ProductTypeRepository;
 use Speelpenning\Products\Events\ProductTypeWasDestroyed;
 
-class DestroyProductType implements SelfHandling
+class DestroyProductType
 {
     /**
      * @var int

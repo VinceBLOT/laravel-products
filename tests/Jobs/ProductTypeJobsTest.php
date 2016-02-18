@@ -17,7 +17,7 @@ class ProductTypeJobsTest extends TestCase
 
     protected function storeProductType($description)
     {
-        return $this->dispatchFromArray(StoreProductType::class, compact('description'));
+        return $this->dispatch(new StoreProductType($description));
     }
 
     protected function createAttributes()
@@ -52,7 +52,7 @@ class ProductTypeJobsTest extends TestCase
 
         $this->expectsEvents(ProductTypeWasUpdated::class);
 
-        $productType = $this->dispatchFromArray(UpdateProductType::class, compact('id', 'description'));
+        $productType = $this->dispatch(new UpdateProductType($id, $description));
 
         $this->assertInstanceOf(ProductType::class, $productType);
         $this->assertEquals($description, $productType->description);
@@ -65,7 +65,7 @@ class ProductTypeJobsTest extends TestCase
         $id = $this->storeProductType('Product type to be destroyed')->id;
         $this->expectsEvents(ProductTypeWasDestroyed::class);
 
-        $productType = $this->dispatchFromArray(DestroyProductType::class, compact('id'));
+        $productType = $this->dispatch(new DestroyProductType($id));
 
         $this->assertInstanceOf(ProductType::class, $productType);
         $this->assertNotNull($productType->deleted_at);
@@ -73,25 +73,16 @@ class ProductTypeJobsTest extends TestCase
 
     public function testAttributesCanBeAssociatedAndDissociated()
     {
-        $attributes = $this->createAttributes()->lists('id')->toArray();
-
         $productType = $this->storeProductType('Some product type');
+        $attributes = $this->createAttributes()->pluck('id')->toArray();
 
-        $this->dispatchFromArray(UpdateProductType::class, [
-            'id' => $productType->id,
-            'description' => $productType->description,
-            'attributes' => $attributes,
-        ]);
+        $this->dispatch(new UpdateProductType($productType->id, $productType->description, $attributes));
 
         $this->seeInDatabase('attribute_product_type', ['product_type_id' => 1, 'attribute_id' => 1]);
         $this->seeInDatabase('attribute_product_type', ['product_type_id' => 1, 'attribute_id' => 2]);
         $this->seeInDatabase('attribute_product_type', ['product_type_id' => 1, 'attribute_id' => 3]);
 
-        $this->dispatchFromArray(UpdateProductType::class, [
-            'id' => $productType->id,
-            'description' => $productType->description,
-            'attributes' => array_only($attributes, [1]),
-        ]);
+        $this->dispatch(new UpdateProductType($productType->id, $productType->description, array_only($attributes, [1])));
 
         $this->notSeeInDatabase('attribute_product_type', ['product_type_id' => 1, 'attribute_id' => 1]);
         $this->seeInDatabase('attribute_product_type', ['product_type_id' => 1, 'attribute_id' => 2]);

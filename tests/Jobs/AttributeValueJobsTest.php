@@ -21,10 +21,7 @@ class AttributeValueJobsTest extends TestCase
 
     protected function createAttribute()
     {
-        return $this->dispatchFromArray(StoreAttribute::class, [
-            'description' => 'Some attribute',
-            'type' => 'in',
-        ]);
+        return $this->dispatch(new StoreAttribute('Some attribute', 'in'));
     }
 
     public function testStoreAttributeValue()
@@ -33,10 +30,7 @@ class AttributeValueJobsTest extends TestCase
 
         $this->expectsEvents(AttributeValueWasStored::class);
 
-        $attributeValue = $this->dispatchFromArray(StoreAttributeValue::class, [
-            'attributeId' => $attribute->id,
-            'value' => 'Some value',
-        ]);
+        $attributeValue = $this->dispatch(new StoreAttributeValue($attribute->id, 'Some value'));
 
         $this->assertInstanceOf(AttributeValue::class, $attributeValue);
         $this->assertNotNull($attributeValue->id);
@@ -53,17 +47,11 @@ class AttributeValueJobsTest extends TestCase
     {
         $attribute = $this->createAttribute();
 
-        $attributeValue = $this->dispatchFromArray(StoreAttributeValue::class, [
-            'attributeId' => $attribute->id,
-            'value' => 'Some value',
-        ]);
+        $attributeValue = $this->dispatch(new StoreAttributeValue($attribute->id, 'Some value'));
 
         $this->expectsEvents(AttributeValueWasUpdated::class);
 
-        $attributeValue = $this->dispatchFromArray(UpdateAttributeValue::class, [
-            'id' => $attributeValue->id,
-            'value' => 'Updated value',
-        ]);
+        $attributeValue = $this->dispatch(new UpdateAttributeValue($attributeValue->id, 'Updated value'));
 
         $this->assertInstanceOf(AttributeValue::class, $attributeValue);
         $this->assertEquals('Updated value', $attributeValue->value);
@@ -78,14 +66,11 @@ class AttributeValueJobsTest extends TestCase
     {
         $attribute = $this->createAttribute();
 
-        $id = $this->dispatchFromArray(StoreAttributeValue::class, [
-            'attributeId' => $attribute->id,
-            'value' => 'Value to be destroyed',
-        ])->id;
+        $id = $this->dispatch(new StoreAttributeValue($attribute->id, 'Value to be destroyed'))->id;
 
         $this->expectsEvents(AttributeValueWasDestroyed::class);
 
-        $attributeValue = $this->dispatchFromArray(DestroyAttributeValue::class, compact('id'));
+        $attributeValue = $this->dispatch(new DestroyAttributeValue($id));
 
         $this->assertInstanceOf(AttributeValue::class, $attributeValue);
 

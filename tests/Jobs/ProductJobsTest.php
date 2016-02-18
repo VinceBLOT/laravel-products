@@ -30,11 +30,7 @@ class ProductJobsTest extends TestCase
         $this->expectsEvents(ProductWasStored::class);
         $productTypeId = $this->createProductType()->id;
 
-        $product = $this->dispatchFromArray(StoreProduct::class, [
-            'productTypeId' => $productTypeId,
-            'productNumber' => '123456',
-            'description' => 'Test dummy',
-        ]);
+        $product = $this->dispatch(new StoreProduct('123456', $productTypeId, 'Test dummy'));
 
         $this->assertInstanceOf(Product::class, $product);
         $this->assertNotNull($product->id);
@@ -54,17 +50,15 @@ class ProductJobsTest extends TestCase
         $this->testStoreProduct();
         $this->expectsEvents(ProductWasUpdated::class);
 
-        $data = [
-            'id' => 1,
-            'description' => 'Test dummy (special edition)',
-        ];
+        $id = 1;
+        $description = 'Test dummy (special edition)';
 
-        $product = $this->dispatchFromArray(UpdateProduct::class, $data);
+        $product = $this->dispatch(new UpdateProduct($id, $description));
 
         $this->assertInstanceOf(Product::class, $product);
-        $this->assertEquals($data['description'], $product->description);
+        $this->assertEquals($description, $product->description);
 
-        $this->seeInDatabase('products', $data);
+        $this->seeInDatabase('products', compact('id', 'description'));
     }
 
     public function testDestroyProduct()
@@ -72,7 +66,7 @@ class ProductJobsTest extends TestCase
         $this->testStoreProduct();
         $this->expectsEvents(ProductWasDestroyed::class);
 
-        $product = $this->dispatchFromArray(DestroyProduct::class, ['id' => 1]);
+        $product = $this->dispatch(new DestroyProduct(1));
 
         $this->assertInstanceOf(Product::class, $product);
         $this->assertNotNull($product->deleted_at);

@@ -2,13 +2,12 @@
 
 namespace Speelpenning\Products\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 use Speelpenning\Contracts\Products\Attribute;
 use Speelpenning\Contracts\Products\Repositories\AttributeRepository;
 use Speelpenning\Products\Events\AttributeWasUpdated;
 
-class UpdateAttribute implements SelfHandling
+class UpdateAttribute
 {
     /**
      * @var int

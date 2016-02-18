@@ -2,14 +2,13 @@
 
 namespace Speelpenning\Products\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 use Speelpenning\Contracts\Products\Repositories\AttributeRepository;
 use Speelpenning\Contracts\Products\Repositories\AttributeValueRepository;
 use Speelpenning\Products\AttributeValue;
 use Speelpenning\Products\Events\AttributeValueWasStored;
 
-class StoreAttributeValue implements SelfHandling
+class StoreAttributeValue
 {
     /**
      * @var int

@@ -2,9 +2,7 @@
 
 namespace Speelpenning\Products\Repositories;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Collection;
 use Speelpenning\Contracts\Products\Product;
 use Speelpenning\Contracts\Products\ProductType as ProductTypeContract;
 use Speelpenning\Contracts\Products\Repositories\ProductTypeRepository as ProductTypeRepositoryContract;
@@ -13,6 +11,7 @@ use Speelpenning\Products\ProductType;
 class ProductTypeRepository implements ProductTypeRepositoryContract
 {
     /**
+     * Returns a collection with all product types.
      *
      * @return Collection
      */
