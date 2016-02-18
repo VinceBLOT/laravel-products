@@ -10,9 +10,9 @@ matrix:
     - php: 7.0
 
 before_script:
-  - touch database/database.sqlite
   - composer require --dev "laravel/laravel=5.2.*"
   - composer install --dev --prefer-source --no-interaction
+  - touch vendor/laravel/laravel/database/database.sqlite
 
 script: vendor/bin/phpunit --coverage-clover=coverage.xml
 
