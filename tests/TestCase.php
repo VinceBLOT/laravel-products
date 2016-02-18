@@ -44,7 +44,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     {
         config([
             'database.default' => 'sqlite',
-            'database.connections.sqlite.database' => ':memory:',
+//            'database.connections.sqlite.database' => ':memory:',
         ]);
     }
 }
