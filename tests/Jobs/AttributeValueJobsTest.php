@@ -19,14 +19,6 @@ class AttributeValueJobsTest extends TestCase
 {
     use DispatchesJobs;
 
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->artisan('vendor:publish');
-        $this->artisan('migrate:refresh');
-    }
-
     protected function createAttribute()
     {
         return $this->dispatch(new StoreAttribute('Some attribute', 'in'));

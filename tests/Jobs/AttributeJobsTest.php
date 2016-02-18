@@ -13,19 +13,10 @@ class AttributeJobsTest extends TestCase
 {
     use DispatchesJobs;
 
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->artisan('vendor:publish');
-        $this->artisan('migrate:refresh');
-    }
-
     protected function storeAttribute($description, $type)
     {
         return $this->dispatch(new StoreAttribute($description, $type));
     }
-
 
     public function testStoreAttribute()
     {

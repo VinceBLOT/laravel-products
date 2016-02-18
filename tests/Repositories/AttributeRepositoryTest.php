@@ -25,9 +25,6 @@ class AttributeRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->artisan('vendor:publish');
-        $this->artisan('migrate:refresh');
-
         $this->attributeRepository = app(AttributeRepository::class);
         $this->productTypeRepository = app(ProductTypeRepository::class);
     }

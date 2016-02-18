@@ -39,4 +39,12 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase {
             'database.connections.sqlite.database' => ':memory:',
         ]);
     }
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->artisan('vendor:publish', ['--force' => true]);
+        $this->artisan('migrate:refresh');
+    }
 }
