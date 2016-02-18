@@ -4,6 +4,8 @@ namespace Speelpenning\Products\Repositories;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Collection;
+use Speelpenning\Contracts\Products\Product;
 use Speelpenning\Contracts\Products\ProductType as ProductTypeContract;
 use Speelpenning\Contracts\Products\Repositories\ProductTypeRepository as ProductTypeRepositoryContract;
 use Speelpenning\Products\ProductType;
@@ -62,5 +64,26 @@ class ProductTypeRepository implements ProductTypeRepositoryContract
     public function save(ProductTypeContract $productType)
     {
         return $productType->save();
+    }
+
+    /**
+     * Returns a collection with all product types.
+     *
+     * @return Collection
+     */
+    public function all()
+    {
+        return ProductType::orderBy('description')->get();
+    }
+
+    /**
+     * Returns the product type belonging to the given product.
+     *
+     * @param Product $product
+     * @return ProductTypeContract
+     */
+    public function getByProduct(Product $product)
+    {
+        return $product->productType;
     }
 }

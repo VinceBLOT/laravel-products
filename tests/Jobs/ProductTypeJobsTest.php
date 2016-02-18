@@ -23,7 +23,7 @@ class ProductTypeJobsTest extends TestCase
 
     protected function storeProductType($description)
     {
-        return $this->dispatchFromArray(StoreProductType::class, compact('description'));
+        return $this->dispatch(new StoreProductType($description));
     }
 
     public function testStoreProductType()
@@ -47,7 +47,7 @@ class ProductTypeJobsTest extends TestCase
 
         $this->expectsEvents(ProductTypeWasUpdated::class);
 
-        $productType = $this->dispatchFromArray(UpdateProductType::class, compact('id', 'description'));
+        $productType = $this->dispatch(new UpdateProductType($id, $description));
 
         $this->assertInstanceOf(ProductType::class, $productType);
         $this->assertEquals($description, $productType->description);
@@ -60,7 +60,7 @@ class ProductTypeJobsTest extends TestCase
         $id = $this->storeProductType('Product type to be destroyed')->id;
         $this->expectsEvents(ProductTypeWasDestroyed::class);
 
-        $productType = $this->dispatchFromArray(DestroyProductType::class, compact('id'));
+        $productType = $this->dispatch(new DestroyProductType($id));
 
         $this->assertInstanceOf(ProductType::class, $productType);
         $this->assertNotNull($productType->deleted_at);

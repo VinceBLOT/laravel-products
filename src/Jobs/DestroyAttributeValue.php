@@ -2,13 +2,12 @@
 
 namespace Speelpenning\Products\Jobs;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 use Speelpenning\Contracts\Products\Attribute;
 use Speelpenning\Contracts\Products\Repositories\AttributeValueRepository;
 use Speelpenning\Products\Events\AttributeValueWasDestroyed;
 
-class DestroyAttributeValue implements SelfHandling
+class DestroyAttributeValue
 {
     /**
      * @var int

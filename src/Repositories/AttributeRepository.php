@@ -91,4 +91,22 @@ class AttributeRepository implements AttributeRepositoryContract
     {
         return $attribute->save();
     }
+
+    /**
+     * Relates attributes to a product type.
+     *
+     * @param ProductTypeContract $productType
+     * @param int|array $attributeIds
+     * @param array $requiredAttributes
+     * @return array
+     */
+    public function syncWithProductType(ProductTypeContract $productType, $attributeIds, array $requiredAttributes = [])
+    {
+        foreach ($attributeIds as $id) {
+            array_set($attributeIds, $id, ['required' => in_array($id, $requiredAttributes)]);
+        }
+        $productType->sync($attributeIds);
+    }
+
+
 }

@@ -23,7 +23,7 @@ class AttributeJobsTest extends TestCase
 
     protected function storeAttribute($description, $type)
     {
-        return $this->dispatchFromArray(StoreAttribute::class, compact('description', 'type'));
+        return $this->dispatch(new StoreAttribute($description, $type));
     }
 
 
@@ -51,7 +51,7 @@ class AttributeJobsTest extends TestCase
 
         $this->expectsEvents(AttributeWasUpdated::class);
 
-        $attribute = $this->dispatchFromArray(UpdateAttribute::class, compact('id', 'description', 'unit_of_measurement'));
+        $attribute = $this->dispatch(new UpdateAttribute($id, $description, $unit_of_measurement));
 
         $this->assertInstanceOf(Attribute::class, $attribute);
         $this->assertEquals($description, $attribute->description);
@@ -64,7 +64,7 @@ class AttributeJobsTest extends TestCase
         $id = $this->storeAttribute('Attribute to be destroyed', 'string')->id;
         $this->expectsEvents(AttributeWasDestroyed::class);
 
-        $attribute = $this->dispatchFromArray(DestroyAttribute::class, compact('id'));
+        $attribute = $this->dispatch(new DestroyAttribute($id));
 
         $this->assertInstanceOf(Attribute::class, $attribute);
         $this->assertNotNull($attribute->deleted_at);
