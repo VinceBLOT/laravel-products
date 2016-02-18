@@ -16,7 +16,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         parent::setUp();
 
         $this->artisan('vendor:publish', ['--force' => true]);
-        $this->artisan('migrate');
+        $this->artisan('migrate:refresh');
     }
 
     /**
